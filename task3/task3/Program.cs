@@ -27,7 +27,8 @@ namespace task3
             float[,] values = new float[5, 16];
             for (int i = 0; i < files.Length; i++)
             {
-                string[] value = files[i].Replace("\\n\r\n", " ").Replace("\\n", String.Empty).Substring(0).Split(' ');
+                //сделано как в первом задании, понято как "входящие данные без \n в конце строк"
+                string[] value = files[i].Replace("\r\n", " ").Substring(0).Split(' ');
                 for (int j = 0; j < value.Length; j++)
                 {
                     values[i, j] = float.Parse(value[j]);
@@ -52,7 +53,7 @@ namespace task3
             {
                 if (averageOfAllCash[indexOfMaximumVisitors] < averageOfAllCash[i]) indexOfMaximumVisitors = i;
             }
-            Console.WriteLine($@"{indexOfMaximumVisitors + 1}\n");
+            Console.WriteLine($"{indexOfMaximumVisitors + 1}");
         }
     }
 }

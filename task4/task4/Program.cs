@@ -22,8 +22,8 @@ namespace task4
                 textFromFile = Encoding.Default.GetString(array);
             }
 
-            //убираем лишнее и добавляем в массив
-            string[] values = textFromFile.Replace("\\n\r\n", " ").Replace("\\n", String.Empty).Replace(":", ".").Substring(0).Split(' ');
+            //сделано как в первом задании, понято как "входящие данные без \n в конце строк"
+            string[] values = textFromFile.Replace("\r\n", " ").Replace(":", ".").Substring(0).Split(' ');
 
             //добавляем куски времени в словарь, отсчет ключей от 1, нечетные ключи - вход посетителя, четные - выход
             Dictionary<int, float> dict = new Dictionary<int, float>(values.Length);
@@ -79,7 +79,7 @@ namespace task4
             for (int i = 0; i < x.Length; i++)
             {
                 x[i] = (float)result[i];
-                if (i % 2 != 0) Console.WriteLine($@"{ x[i - 1].ToString("f2").Replace(".", ":")} {x[i].ToString("f2").Replace(".", ":")}\n");
+                if (i % 2 != 0) Console.WriteLine($@"{ x[i - 1].ToString("f2").Replace(".", ":")} {x[i].ToString("f2").Replace(".", ":")}");
             }
         }
     }

@@ -15,7 +15,7 @@ namespace task2
             int[] result = CalculatingPosition(pointsOfFigure, points);
             foreach (int item in result)
             {
-                Console.WriteLine($"{item-1}\\n");
+                Console.WriteLine($"{item-1}");
             }
         }
 
@@ -29,7 +29,8 @@ namespace task2
                 fStream.Read(array, 0, array.Length);
                 textFromFile = Encoding.Default.GetString(array);
             }
-            string[] values = textFromFile.Replace("\\n\r\n", " ").Replace("\\n", String.Empty).Substring(0).Split(' ');
+            //сделано как в первом задании, понято как "входящие данные без \n в конце строк"
+            string[] values = textFromFile.Replace("\r\n", " ").Substring(0).Split(' ');
             float[,] arrayOfValues = new float[values.Length / 2, 2];
             int counter = 0;
             for (int i = 0; i < arrayOfValues.GetLength(0); i++)
