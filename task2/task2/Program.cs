@@ -9,6 +9,7 @@ namespace task2
     {
         static void Main(string[] args)
         {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
             float[,] pointsOfFigure = ReadDataFromFile(args[0]);
             float[,] points = ReadDataFromFile(args[1]);
             int[] result = CalculatingPosition(pointsOfFigure, points);
@@ -35,7 +36,7 @@ namespace task2
             {
                 for (int j = 0; j < arrayOfValues.GetLength(1); j++)
                 {
-                    arrayOfValues[i, j] = Convert.ToSingle(values[counter++], CultureInfo.InvariantCulture);
+                    arrayOfValues[i, j] = float.Parse(values[counter++]);
                 }
             }
             return arrayOfValues;

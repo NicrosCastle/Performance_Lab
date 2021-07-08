@@ -9,6 +9,7 @@ namespace task3
     {
         static void Main(string[] args)
         {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
             //читаем ссылку на каталог, читаем данные из файлов и сохраняем в массив
             string[] paths = Directory.GetFiles(args[0]);
             string[] files = new string[5];
@@ -29,7 +30,7 @@ namespace task3
                 string[] value = files[i].Replace("\\n\r\n", " ").Replace("\\n", String.Empty).Substring(0).Split(' ');
                 for (int j = 0; j < value.Length; j++)
                 {
-                    values[i, j] = Convert.ToSingle(value[j], CultureInfo.InvariantCulture);
+                    values[i, j] = float.Parse(value[j]);
                 }
             }
 

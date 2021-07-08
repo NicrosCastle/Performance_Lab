@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Text;
 
 namespace task
 {
@@ -8,56 +10,45 @@ namespace task
         static void Main(string[] args)
         {
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
-            short[] inputValues = InputData();
-            Percentile(inputValues, 90);
-            Mediana(inputValues);
-            MaxValue(inputValues);
-            MinValue(inputValues);
-            AverageValue(inputValues);
+            string textFromFile;
+            using (FileStream fStream = File.OpenRead(args[0]))
+            {
+                byte[] array = new byte[fStream.Length];
+                fStream.Read(array, 0, array.Length);
+                textFromFile = Encoding.Default.GetString(array);
+            }
+            string[] inputValues = textFromFile.Replace("\r\n", " ").Substring(0).Split(' ');
+            double[] values = new double[inputValues.Length];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = double.Parse(inputValues[i]);
+            }
+            Percentile(values, 90);
+            Mediana(values);
+            MaxValue(values);
+            MinValue(values);
+            AverageValue(values);
         }
 
-        //получение данных
-        static short[] InputData()
-        {
-            string[] inputValues = new string[1000];
-            string inputValue;
-            int counter = 0;
-            for (int i = 0; i < 1000; i++)
-            {
-                inputValue = Console.ReadLine();
-                if (inputValue.Contains("\\n")) inputValue = inputValue.Substring(0, inputValue.IndexOf('\\'));
-                if (inputValue != String.Empty)
-                {
-                    inputValues[i] = inputValue;
-                    counter++;
-                }
-                else break;
-            }
-            short[] values = new short[counter];
-            for (int i = 0; i < counter; i++)
-            {
-                values[i] = short.Parse(inputValues[i]);
-            }
-            return values;
-        }
+
 
         //вычисление и вывод 90 процентиля
-        static void Percentile(short[] values, int percentile)
+        static void Percentile(double[] values, int percentile)
         {
             Array.Sort(values);
             double rank = percentile / 100.0 * (values.Length - 1) + 1;
             int index = (int)rank;
             double fractional = rank - index;
             double percentileValue = values[index-1] + fractional * (values[index] - values[index - 1]);
-            Console.WriteLine(percentileValue.ToString("f2") + "\\n");
+            Console.WriteLine(percentileValue.ToString("f2"));
         }
 
         //вычисление и вывод медианы
-        static void Mediana(short[] values)
+        static void Mediana(double[] values)
         {
-            int sumAllValues = 0;
-            int medianaSum = 0;
-            foreach (short item in values)
+            double sumAllValues = 0;
+            double medianaSum = 0;
+            foreach (double item in values)
             {
                 sumAllValues += item;
             }
@@ -66,43 +57,43 @@ namespace task
                 medianaSum += values[i];
                 if (medianaSum > sumAllValues / 2.0) 
                 {
-                    Console.WriteLine(values[i - 1].ToString("f2") + "\\n");
+                    Console.WriteLine(values[i - 1].ToString("f2"));
                     break;
                 }
             }
         }
 
         //вычисление и вывод максимального значения
-        static void MaxValue(short[] values)
+        static void MaxValue(double[] values)
         {
-            short maxValue = short.MinValue;
+            double maxValue = double.MinValue;
             for (int i = 0; i < values.Length; i++)
             {
                 if (maxValue < values[i]) maxValue = values[i];
             }
-            Console.WriteLine(maxValue.ToString("f2") + "\\n");
+            Console.WriteLine(maxValue.ToString("f2"));
         }
 
         //вычисление и вывод минимального значения
-        static void MinValue(short[] values)
+        static void MinValue(double[] values)
         {
-            short minValue = short.MaxValue;
+            double minValue = double.MaxValue;
             for (int i = 0; i < values.Length; i++)
             {
                 if (minValue > values[i]) minValue = values[i];
             }
-            Console.WriteLine(minValue.ToString("f2") + "\\n");
+            Console.WriteLine(minValue.ToString("f2"));
         }
 
         //вычисление и вывод среднего значения
-        static void AverageValue(short[] values)
+        static void AverageValue(double[] values)
         {
             double averageValue = 0;
             foreach (double item in values)
             {
                 averageValue += item;
             }
-            Console.WriteLine((averageValue / values.Length).ToString("f2") + "\\n");
+            Console.WriteLine((averageValue / values.Length).ToString("f2"));
         }
     }
 
